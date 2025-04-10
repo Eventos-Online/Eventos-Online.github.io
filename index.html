@@ -22,7 +22,7 @@
 
   <div id="formulario">
     <input type="text" id="cancionInput" placeholder="Nombre de la canción y del autor" />
-     <input type="password" placeholder="sabado" />
+     <input type="text" id="claveInput" placeholder="Introduce Sabado" /> 
     <button onclick="enviarPeticion()">Enviar</button>
     <div id="estadoPeticion"></div>
   </div>
@@ -58,12 +58,21 @@
 
     function enviarPeticion() {
       const cancion = document.getElementById("cancionInput").value.trim();
+      const clave = document.getElementById("claveInput").value.trim();
+      const claveCorrecta = "Sabado"; // <- puedes cambiarla por la que quieras
+
+      
       if (cancion === "") return alert("Por favor, escribe una canción.");
+      if (clave !== claveCorrecta) return alert("Palabra clave incorrecta.");
+
+      
       peticionesRef.add({ cancion, validada: false, respuesta: "" }).then(docRef => {
         localStorage.setItem("peticionID", docRef.id);
         escucharEstadoUsuario(docRef.id);
       });
+      
       document.getElementById("cancionInput").value = "";
+      document.getElementById("claveInput").value = "";
     }
 
     function escucharEstadoUsuario(id) {
